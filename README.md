@@ -48,6 +48,8 @@ The following **additional** features are implemented:
 
 * [X] User can view profile image during compose tweet
 * [X] User can cancel a compose tweet and return to timeline
+* [X] User can view their username while composing a tweet
+* [X] Character count changes colour as you near/pass the max limit
 
 ## Video Walkthrough
 
