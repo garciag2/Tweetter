@@ -7,6 +7,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,8 +78,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvBody.setText(tweet.body);
         //holder.tvUID.setText(tweet.uid);
         holder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.createdAt));
+        holder.tvScreenName.setText('@'+tweet.user.screenName);
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+
     }
 
     @Override
@@ -86,13 +89,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         return mTweets.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivProfileImage;
         public TextView tvUsername;
         public TextView tvBody;
         //public TextView tvUID;
         public TextView tvTimeStamp;
+        public TextView tvScreenName;
+        public Button bReply;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -101,10 +107,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
-            //tvUID = (TextView) itemView.findViewById(R.id.tvUID);
-
-
+            tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
+            bReply = (Button) itemView.findViewById(R.id.bReply);
+            bReply.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((TimelineActivity) context).startReplyActivity(mTweets.get(getAdapterPosition()));
+                        }
+                    }
+            );
 
         }
+
     }
 }

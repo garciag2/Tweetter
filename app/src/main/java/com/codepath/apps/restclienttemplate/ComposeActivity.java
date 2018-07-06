@@ -17,7 +17,6 @@ import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wafflecopter.charcounttextview.CharCountTextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -34,6 +33,7 @@ public class ComposeActivity extends AppCompatActivity {
     Context context;
 
     public TwitterClient client;
+    private Tweet replyTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,13 @@ public class ComposeActivity extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvSend = (Button) findViewById(R.id.tvSend);
         tvCancel = (Button) findViewById(R.id.tvCancel);
+        etBody = (EditText) findViewById(R.id.etBody);
+
+        if(getIntent().hasExtra(Tweet.class.getName())) {
+            replyTo = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getName()));
+            etBody.setText("@" + replyTo.getUser().getScreenName() + ": ");
+            etBody.setSelection(etBody.getText().length());
+        }
 
         CharCountTextView tvCharCount = (CharCountTextView) findViewById(R.id.tvTextCounter);
         EditText simpleEditText = (EditText) findViewById(R.id.etBody);
@@ -79,33 +86,41 @@ public class ComposeActivity extends AppCompatActivity {
         EditText simpleEditText = (EditText) findViewById(R.id.etBody);
         String strValue = simpleEditText.getText().toString();
 
-        client.sendTweet(strValue, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    Tweet tweet = Tweet.fromJSON(response);
-                    Intent data = new Intent();
-                    data.putExtra("tweet", Parcels.wrap(tweet));
-                    setResult(RESULT_OK,data);
-                    finish();
+        if(replyTo == null) {
+            client.sendTweet(strValue, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        Tweet tweet = Tweet.fromJSON(response);
+                        Intent data = new Intent();
+                        data.putExtra("tweet", Parcels.wrap(tweet));
+                        setResult(RESULT_OK,data);
+                        finish();
 
-                } catch(JSONException e){
-                    e.printStackTrace();
+                    } catch(JSONException e){
+                        e.printStackTrace();
+                    }
                 }
+            });
 
+        } else {
+            client.replyTweet(strValue, replyTo.uid, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        Tweet tweet = Tweet.fromJSON(response);
+                        Intent data = new Intent();
+                        data.putExtra("tweet", Parcels.wrap(tweet));
+                        setResult(RESULT_OK,data);
+                        finish();
 
-            }
+                    } catch(JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
 
     }
 

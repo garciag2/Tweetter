@@ -44,6 +44,18 @@ public class TimelineActivity extends AppCompatActivity {
         startActivityForResult(intent, 25);
     }
 
+    public void onClick2() {
+        Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
+        //i.putExtra(Tweet.class.getName(), Parcels.wrap(newTweet));
+        startActivityForResult(i, 25);
+    }
+
+    public void startReplyActivity(Tweet tweet) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra(Tweet.class.getName(), Parcels.wrap(tweet));
+        startActivityForResult(i, 250);
+    }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode==RESULT_OK){

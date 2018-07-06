@@ -12,6 +12,9 @@ public class Tweet {
     public User user;
     public String createdAt;
 
+    public User getUser() {
+        return user;
+    }
 
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException{
         Tweet tweet = new Tweet();
