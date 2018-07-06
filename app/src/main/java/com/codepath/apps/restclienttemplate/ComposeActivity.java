@@ -75,6 +75,7 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onUserAvailable(User currentUser) {
                 Glide.with(context).load(currentUser.getProfileImageUrl()).into(ivProfileImage);
+                tvUsername.setText(currentUser.getScreenName());
             }
         });
 
