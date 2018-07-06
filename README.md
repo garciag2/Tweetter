@@ -23,9 +23,9 @@ The following **optional** features are implemented:
 * [X] User can **see a counter with total number of characters left for tweet** on compose tweet page
 * [X] User can **pull down to refresh tweets timeline**
 * [X] User is using **"Twitter branded" colors and styles**
-* [ ] User sees an **indeterminate progress indicator** when any background or network task is happening
-* [ ] User can **select "reply" from detail view to respond to a tweet**
-  * [ ] User that wrote the original tweet is **automatically "@" replied in compose**
+* [X] User sees an **indeterminate progress indicator** when any background or network task is happening (took it out though because personally, I think it looks ugly.
+* [X] User can **select "reply" from detail view to respond to a tweet**
+  * [X] User that wrote the original tweet is **automatically "@" replied in compose**
 * [ ] User can tap a tweet to **open a detailed tweet view**
   * [ ] User can **take favorite (and unfavorite) or reweet** actions on a tweet
 * [ ] User can **see embedded image media within a tweet** on list or detail view.
@@ -48,6 +48,8 @@ The following **additional** features are implemented:
 
 * [X] User can view profile image during compose tweet
 * [X] User can cancel a compose tweet and return to timeline
+* [X] User can view their username while composing a tweet
+* [X] Character count changes colour as you near/pass the max limit
 
 ## Video Walkthrough
 
