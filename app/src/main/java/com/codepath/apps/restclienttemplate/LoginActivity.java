@@ -27,7 +27,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 			protected Void doInBackground(SampleModel... sampleModels) {
 				sampleModelDao.insertModel(sampleModels);
 				return null;
-			};
+			}
 		};
 		task.execute(sampleModel);
 	}

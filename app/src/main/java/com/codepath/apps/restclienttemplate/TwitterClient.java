@@ -7,7 +7,6 @@ import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 /*
  * 
  * This is the object responsible for communicating with a REST API. 
@@ -23,8 +22,8 @@ import com.loopj.android.http.RequestParams;
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
 	public static final String REST_URL = "https://api.twitter.com/1.1";
-	public static final String REST_CONSUMER_KEY = "sYKon5TH2THEvyC4FHGEbjGzN";       // Change this
-	public static final String REST_CONSUMER_SECRET = "bLgaUcq0fKHA0H1vMN24pGnBJ43Bq5J2TLjEafN0ZaQCDoxZqh"; // Change this
+	public String REST_CONSUMER_KEY;       // Change this
+	public String REST_CONSUMER_SECRET; // Change this
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
@@ -35,10 +34,20 @@ public class TwitterClient extends OAuthBaseClient {
 	public TwitterClient(Context context) {
 		super(context, REST_API_INSTANCE,
 				REST_URL,
-				REST_CONSUMER_KEY,
-				REST_CONSUMER_SECRET,
+				context.getString(R.string.api_key),
+						context.getString(R.string.api_secret_key),
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
+		REST_CONSUMER_KEY = context.getString(R.string.api_key);
+		REST_CONSUMER_SECRET = context.getString(R.string.api_secret_key);
+	}
+
+	public void sendTweet(String message, AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", message);
+		client.post(apiUrl, params, handler);
 	}
 
 
@@ -48,9 +57,14 @@ public class TwitterClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
-		params.put("count", 35);
+		params.put("count", 15);
 		params.put("since_id",1);
 		client.get(apiUrl, params, handler);
+	}
+
+	public void verifyCredentials(AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("account/verify_credentials.json");
+		client.get(apiUrl, null, handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

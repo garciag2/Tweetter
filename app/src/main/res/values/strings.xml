@@ -5,5 +5,7 @@
     <string name="login_label">Log in</string>
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">cprest</string>
+    <string name= "api_key">"sYKon5TH2THEvyC4FHGEbjGzN"</string>
+    <string name= "api_secret_key">"bLgaUcq0fKHA0H1vMN24pGnBJ43Bq5J2TLjEafN0ZaQCDoxZqh"</string>
 
 </resources>

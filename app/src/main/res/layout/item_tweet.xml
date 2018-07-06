@@ -13,7 +13,7 @@
         app:srcCompat="?attr/actionModeSplitBackground" />
 
     <TextView
-        android:id="@+id/tvUserName"
+        android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,8 +24,19 @@
     <TextView
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
-        android:layout_height="29dp"
-        android:layout_alignBottom="@+id/ivProfileImage"
-        android:layout_alignStart="@+id/tvUserName"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUsername"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tvUsername"
+        android:scrollbars="vertical"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvTimeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="TextView" />
+
 </RelativeLayout>
